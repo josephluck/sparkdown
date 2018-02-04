@@ -1,4 +1,4 @@
-[Home](./index)
+[Home](../index)
 
 # H1
 ## H2
