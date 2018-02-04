@@ -46,11 +46,13 @@ function parseDirectory(args: Args) {
     } else if (isMarkdown) {
       const inputPath = path.resolve(process.cwd(), args.source, directory.name)
       const outputFileName = `${directory.name.split('.')[0]}.html`
-      const outputPath = path.resolve(process.cwd(), args.output, outputFileName)
+      const outputDir = path.resolve(process.cwd(), args.output)
+      const outputPath = path.resolve(outputDir, outputFileName)
       const file = fs.readFileSync(inputPath).toString()
-      const content = parser(file, theme.renderer)
+      const content = parser(file, theme.renderer, outputDir)
       const html = theme.layout(content, {
-        font: 'EB Garamond',
+        bodyFont: 'EB Garamond',
+        monospaceFont: 'Inconsolata',
       })
       fs.writeFileSync(outputPath, html)
     }

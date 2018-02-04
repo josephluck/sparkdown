@@ -1,4 +1,4 @@
-[Everything]('/everything')
+[Everything]('./everything')
 
 # Joseph Luck
 
