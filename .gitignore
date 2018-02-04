@@ -1,0 +1,14 @@
+node_modules/
+coverage/
+tmp/
+npm-debug.log*
+coverage.json
+.DS_Store
+*.swp
+*.log
+lib/
+dist/
+reports/
+shots/
+tmp/
+selenium-debug.log*

@@ -1,0 +1,23 @@
+{
+  "name": "mrkdn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/marked": "^0.3.0",
+    "@types/tape": "^4.2.31",
+    "@types/yargs": "^10.0.1",
+    "marked": "^0.3.12",
+    "prettier": "^1.10.2",
+    "space-lift": "^0.6.4",
+    "tape": "^4.8.0",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.7.0",
+    "typescript": "^2.7.1",
+    "yargs": "^11.0.0"
+  },
+  "scripts": {
+    "example": "ts-node ./src/index.ts --source ./example/src/index.md --output ./example/dist/index.html"
+  }
+}
