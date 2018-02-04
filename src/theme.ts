@@ -83,22 +83,23 @@ const theme: Theme = {
         } else if (level === 2) {
           return `<h2 class="normal f3 lh-copy mb3">${text}</h2>`
         } else {
-          return `<h3>${text}</h3>`
+          return `<h3 class="normal f4 lh-copy mb2 gray">${text}</h3>`
         }
       },
       hr: renderElm,
       html: renderContent,
       image: renderContent,
       link(href, title, text) {
-        // TODO: decide whether it's an internal link or external
-        return `<a href="${href}" target="_blank">${text}</a>`
+        return `<a href="${href}" title="${title || text}">${text}</a>`
       },
       list: renderContent,
       listitem: renderContent,
       paragraph(text) {
         return `<p class="lh-copy mb2">${text}</p>`
       },
-      strong: text => `<b>${text}</b>`,
+      strong(text) {
+        return `<b>${text}</b>`
+      },
       table: renderContent,
       tablecell: renderContent,
       tablerow: renderContent,

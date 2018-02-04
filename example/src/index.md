@@ -1,3 +1,5 @@
+[Everything]('/everything')
+
 # Joseph Luck
 
 ## Software engineer passionate about design and functional front-end code

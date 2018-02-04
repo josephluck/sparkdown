@@ -162,6 +162,12 @@ diff@^3.1.0, diff@^3.2.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
 
+dir-to-json@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/dir-to-json/-/dir-to-json-0.0.3.tgz#54a8e81a570eb129fe4c3d80f7012f4d357fe731"
+  dependencies:
+    q "^1.0.1"
+
 es-abstract@^1.5.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.10.0.tgz#1ecb36c197842a00d8ee4c2dfd8646bb97d60864"
@@ -476,6 +482,10 @@ prettier@^1.10.2:
 pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
+
+q@^1.0.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
 require-directory@^2.1.1:
   version "2.1.1"
