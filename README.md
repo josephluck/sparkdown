@@ -1,5 +1,7 @@
 # MRKDN
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/josephluck/mrkdn.svg)](https://greenkeeper.io/)
+
 Yet another static site generator based on markdown files
 
 ## What?
