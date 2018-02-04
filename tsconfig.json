@@ -3,11 +3,11 @@
 		"target": "es3",
 		"module": "commonjs",
 		"allowJs": false,
+    "outDir": "./bin",
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"preserveConstEnums": true,
 		"declaration": true,
-		"outDir": "lib",
 		"sourceMap": false,
 		"lib": [
 			"es6",

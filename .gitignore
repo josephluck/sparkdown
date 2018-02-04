@@ -12,3 +12,4 @@ reports/
 shots/
 tmp/
 selenium-debug.log*
+bin/
