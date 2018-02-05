@@ -1,7 +1,7 @@
 {
-  "name": "mrkdn",
-  "version": "1.0.0",
-  "main": "./bin/mrkdn.js",
+  "name": "sparkdown",
+  "version": "0.0.1",
+  "main": "./bin/sparkdown.js",
   "license": "MIT",
   "dependencies": {
     "@types/fs-extra": "^5.0.0",
@@ -27,12 +27,12 @@
     "bin"
   ],
   "scripts": {
-    "mrkdn": "npm run build && npm run example",
-    "build": "tsc && chmod +x ./bin/mrkdn.js",
+    "sparkdown": "npm run build && npm run example",
+    "build": "rm -rf ./bin && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "example": "npm run build && cd example && node ../bin/mrkdn.js && cd ../"
+    "example": "npm run build && cd example && node ../bin/sparkdown.js && cd ../"
   },
   "bin": {
-    "mrkdn": "./bin/mrkdn.js"
+    "sparkdown": "./bin/sparkdown.js"
   }
 }
