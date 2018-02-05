@@ -26,9 +26,9 @@ const theme: Theme = {
     const {
       bodyFont = 'Source Sans Pro',
       monospaceFont = 'Source Code Pro',
-      title = 'Welcome',
-      description = 'mrkdn - a static site generator',
-      author = 'mrkdn',
+      title = 'Sparkdown',
+      description = 'Sparkdown - a static site generator',
+      author = 'Sparkdown',
     } = options
     return `
       <html>

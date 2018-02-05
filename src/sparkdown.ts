@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
@@ -58,7 +60,7 @@ function parseDirectory(options: Options) {
 }
 
 async function run() {
-  const opts = fs.readFileSync(path.resolve(process.cwd(), './mrkdn.json')).toString()
+  const opts = fs.readFileSync(path.resolve(process.cwd(), './sparkdown.json')).toString()
   try {
     const options = validateOptions(JSON.parse(opts))
     if (options) {

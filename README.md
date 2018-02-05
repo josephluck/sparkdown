@@ -1,4 +1,4 @@
-# MRKDN
+# Sparkdown
 
 Yet another static site generator based on markdown files
 
@@ -11,13 +11,13 @@ Takes a source directory of markdown files and spits out a website.
 ### Install
 
 ```bash
-yarn add mrkdn
+yarn add sparkdown
 ```
 
 ### Setup
 
 ```bash
-touch mrkdn.json
+touch sparkdown.json
 ```
 
 ### Options
@@ -39,7 +39,7 @@ touch mrkdn.json
 ### Run
 
 ```bash
-mrkdn
+sparkdown
 ```
 
 ### Serve
