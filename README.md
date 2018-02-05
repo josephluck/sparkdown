@@ -1,4 +1,4 @@
-# Sparkdown
+# ⚡ Sparkdown 👇
 
 Yet another static site generator based on markdown files
 
