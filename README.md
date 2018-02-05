@@ -1,4 +1,4 @@
-# :zap::point_down: Sparkdown 
+# :zap:Sparkdown:point_down:
 
 Yet another static site generator based on markdown files
 
