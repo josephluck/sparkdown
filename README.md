@@ -14,13 +14,15 @@ Takes a source directory of markdown files and spits out a website.
 yarn add sparkdown
 ```
 
-### Setup
+### Configuration
+
+Make a configuration file (optional)
 
 ```bash
 touch sparkdown.json
 ```
 
-### Options
+Write these options to your `sparkdown.json` file (optional)
 
 ```json
 {
@@ -32,11 +34,13 @@ touch sparkdown.json
 ```
 
 - `source`: Source directory of markdown files
-- `output`: Directory the website will live
+- `output`: Directory where sparkdown will generate HTML files
 - `bodyFont`: Any valid google webfont
-- `monospaceFont`: Any valid google webfont 
+- `monospaceFont`: Any valid google webfont (used when rendering `code` snippets)
 
 ### Run
+
+Run the following from the root directory of your project (where your `sparkdown.json` is):
 
 ```bash
 sparkdown
@@ -44,19 +48,10 @@ sparkdown
 
 ### Serve
 
-You can obviously serve the directory to any hosting, but give it a go with [surge](surge.sh)
-
-```bash
-yarn add surge
-surge
-```
+You can obviously serve the output directory to any hosting, but give it a go with [surge](surge.sh)
 
 # Markdown
 
 Write markdown files to your source directory ready to be converted in to HTML files.
 
-Links should be made relative to the file you're editing. For example:
-
-```markdown
-Here's a [link](./foo.md) from `bar.md` to `foo.md`. Similarly here's [another link](./foo/bar/baz.md) traversing directories.
-```
+Take a look at the [example project](./example) for an example project.

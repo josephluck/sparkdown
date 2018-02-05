@@ -13,14 +13,6 @@ interface Options {
   monospaceFont?: string
 }
 
-function validateOptions(options: Options): null | Options {
-  if (options.source && options.output) {
-    return options
-  } else {
-    return null
-  }
-}
-
 interface DirToJson {
   parent: string
   path: string
@@ -59,21 +51,22 @@ function parseDirectory(options: Options) {
   }
 }
 
+const defaultConfig = {
+  source: './src',
+  output: './dist',
+  bodyFont: 'EB Garamond',
+  monospaceFont: 'Inconsolata',
+}
+
 async function run() {
-  const opts = fs.readFileSync(path.resolve(process.cwd(), './sparkdown.json')).toString()
-  try {
-    const options = validateOptions(JSON.parse(opts))
-    if (options) {
-      const source = await dirToJson(path.resolve(process.cwd(), options.source))
-      source.children
-        ? source.children.map(parseDirectory(options))
-        : [source].map(parseDirectory(options))
-    } else {
-      console.error('Invalid options')
-    }
-  } catch (e) {
-    console.error(e)
-  }
+  const configFilePath = path.resolve(process.cwd(), './sparkdown.json')
+  const options = fs.existsSync(configFilePath)
+    ? { ...defaultConfig, ...JSON.parse(fs.readFileSync(configFilePath).toString()) }
+    : defaultConfig
+  const source = await dirToJson(path.resolve(process.cwd(), options.source))
+  source.children
+    ? source.children.map(parseDirectory(options))
+    : [source].map(parseDirectory(options))
 }
 
 run()

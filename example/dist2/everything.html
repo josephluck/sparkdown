@@ -1,0 +1,167 @@
+
+      <html>
+        <head>
+          <title>Sparkdown</title>
+          <meta name="description" content="Sparkdown - a static site generator">
+          <meta name="author" content="Sparkdown">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
+          <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+          <!--[if lt IE 9]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+          <![endif]-->
+        </head>
+        <style>
+          html, body {
+            margin: 0px;
+            padding: 0px;
+            font-size: 20px;
+            font-family: EB Garamond;
+            background-color: white;
+            color: rgb(20, 20, 20);
+            display: flex;
+            align-items: center;
+            min-height: 100%;
+          }
+          .mono { font-family: Inconsolata; }
+          main { padding: 2rem 10vw; }
+          h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
+          ul, li { list-style-type: none; }
+          .df { display: flex; }
+          .flex-1 { flex: 1; }
+          a {
+            color: #0086b3;
+            text-decoration: none;
+            border-bottom: solid 1px #0086b3;
+          }
+          @media screen and (min-width: 50em) {
+            html, body { font-size: 24px; }
+          }
+        </style>
+        <body>
+          <main>
+            <p class="lh-copy mb3"><a href="/home/joseph/code/sparkdown/example/dist2/index.html" title="Home">Home</a></p><h1 class="f1 lh-solid mb4">H1</h1><h2 class="normal f3 lh-copy mb3">H2</h2><h3 class="normal f4 lh-copy mb2 gray">H3</h3><h4 class="normal f5 lh-copy mb1 gray">H4</h5><h5 class="normal f6 lh-copy gray">H5</h5><h5 class="normal f6 lh-copy gray">H6</h5><p class="lh-copy mb3">Alternatively, for H1 and H2, an underline-ish style:</p><h1 class="f1 lh-solid mb4">Alt-H1</h1><h2 class="normal f3 lh-copy mb3">Alt-H2</h2><p class="lh-copy mb3">Emphasis, aka italics, with <span class="bb b--gray">asterisks</span> or <span class="bb b--gray">underscores</span>.</p><p class="lh-copy mb3">Strong emphasis, aka bold, with <b>asterisks</b> or <b>underscores</b>.</p><p class="lh-copy mb3">Combined emphasis with <b>asterisks and <span class="bb b--gray">underscores</span></b>.</p><p class="lh-copy mb3">Strikethrough uses two tildes. <del>Scratch this.</del></p><div class="mb2"><div class="lh-copy mb1 ph3">~ First ordered list item</div><div class="lh-copy mb1 ph3">~ Another item
+⋅⋅* Unordered sub-list. </div><div class="lh-copy mb1 ph3">~ Actual numbers don&#39;t matter, just that it&#39;s a number
+⋅⋅1. Ordered sub-list</div><div class="lh-copy mb1 ph3">~ And another item.</div></div><p class="lh-copy mb3">⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we&#39;ll use three here to also align the raw Markdown).</p><p class="lh-copy mb3">⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
+⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
+⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)</p><div class="mb2"><div class="lh-copy mb1 ph3">~ Unordered list can use asterisks</div><div class="lh-copy mb1 ph3">~ Or minuses</div><div class="lh-copy mb1 ph3">~ Or pluses</div></div><p class="lh-copy mb3"><a href="https://www.google.com" title="I&#39;m an inline-style link">I&#39;m an inline-style link</a></p><p class="lh-copy mb3"><a href="https://www.google.com" title="Google&#39;s Homepage">I&#39;m an inline-style link with title</a></p><p class="lh-copy mb3"><a href="https://www.mozilla.org" title="I&#39;m a reference-style link">I&#39;m a reference-style link</a></p><p class="lh-copy mb3"><a href="/blob/master/LICENSE.html" title="I&#39;m a relative reference to a repository file">I&#39;m a relative reference to a repository file</a></p><p class="lh-copy mb3"><a href="http://slashdot.org" title="You can use numbers for reference-style link definitions">You can use numbers for reference-style link definitions</a></p><p class="lh-copy mb3">Or leave it empty and use the <a href="http://www.reddit.com" title="link text itself">link text itself</a>.</p><p class="lh-copy mb3">URLs and URLs in angle brackets will automatically get turned into links. 
+<a href="http://www.example.com" title="http://www.example.com">http://www.example.com</a> or <a href="http://www.example.com" title="http://www.example.com">http://www.example.com</a> and sometimes 
+example.com (but not on Github, for example).</p><p class="lh-copy mb3">Some text to show that the reference links can follow later.</p><p class="lh-copy mb3">Here&#39;s our logo (hover to see the title text):</p><p class="lh-copy mb3">Inline-style: 
+<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" title="Logo Title Text 1" /></p><p class="lh-copy mb3">Reference-style: 
+<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" title="Logo Title Text 2" /></p><p class="lh-copy mb3">Inline <span class="mono bg-near-white dib br2 ph1">code</span> has <span class="mono bg-near-white dib br2 ph1">back-ticks around</span> it.</p><p class="mono bg-near-white br2 pv1 ph2 lh-copy mb3">var s = "JavaScript syntax highlighting";
+alert(s);</p><p class="mono bg-near-white br2 pv1 ph2 lh-copy mb3">s = "Python syntax highlighting"
+print s</p><p class="mono bg-near-white br2 pv1 ph2 lh-copy mb3">No language indicated, so no syntax highlighting. 
+But let's throw in a <b>tag</b>.</p><p class="lh-copy mb3">Colons can be used to align columns.</p><div class="mb3"><div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            b
+          ">Tables</div>
+          <div class="
+            flex-1 lh-copy
+            tc
+            b
+          ">Are</div>
+          <div class="
+            flex-1 lh-copy
+            tr
+            b
+          ">Cool</div></div> <div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">col 3 is</div>
+          <div class="
+            flex-1 lh-copy
+            tc
+            normal
+          ">right-aligned</div>
+          <div class="
+            flex-1 lh-copy
+            tr
+            normal
+          ">$1600</div></div><div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">col 2 is</div>
+          <div class="
+            flex-1 lh-copy
+            tc
+            normal
+          ">centered</div>
+          <div class="
+            flex-1 lh-copy
+            tr
+            normal
+          ">$12</div></div><div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">zebra stripes</div>
+          <div class="
+            flex-1 lh-copy
+            tc
+            normal
+          ">are neat</div>
+          <div class="
+            flex-1 lh-copy
+            tr
+            normal
+          ">$1</div></div></div><p class="lh-copy mb3">There must be at least 3 dashes separating each header cell.
+The outer pipes (|) are optional, and you don&#39;t need to make the 
+raw Markdown line up prettily. You can also use inline Markdown.</p><div class="mb3"><div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            b
+          ">Markdown</div>
+          <div class="
+            flex-1 lh-copy
+            
+            b
+          ">Less</div>
+          <div class="
+            flex-1 lh-copy
+            
+            b
+          ">Pretty</div></div> <div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          "><span class="bb b--gray">Still</span></div>
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          "><span class="mono bg-near-white dib br2 ph1">renders</span></div>
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          "><b>nicely</b></div></div><div class="df">
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">1</div>
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">2</div>
+          <div class="
+            flex-1 lh-copy
+            
+            normal
+          ">3</div></div></div><div class="bl bw2 b--light-gray pl2 lh-copy gray i"><p class="lh-copy mb3">Blockquotes are very handy in email to emulate reply text.
+This line is part of the same quote.</p></div><p class="lh-copy mb3">Quote break.</p><div class="bl bw2 b--light-gray pl2 lh-copy gray i"><p class="lh-copy mb3">This is a very long line that will still be quoted properly when it wraps. Oh boy let&#39;s keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can <span class="bb b--gray">put</span> <b>Markdown</b> into a blockquote. </p></div><p class="lh-copy mb3">Three or more...</p><div class="mb3 bb bw2 b--light-gray"></div><p class="lh-copy mb3">Hyphens</p><div class="mb3 bb bw2 b--light-gray"></div><p class="lh-copy mb3">Asterisks</p><div class="mb3 bb bw2 b--light-gray"></div><p class="lh-copy mb3">Underscores</p>
+          </main>
+        </body>
+      </html>
+    

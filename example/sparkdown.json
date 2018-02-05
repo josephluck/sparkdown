@@ -1,6 +1,6 @@
 {
   "source": "./src",
-  "output": "./dist",
+  "output": "./dist2",
   "bodyFont": "EB Garamond",
   "monospaceFont": "Inconsolata"
 }
