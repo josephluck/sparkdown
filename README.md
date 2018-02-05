@@ -10,19 +10,27 @@ Takes a source directory of markdown files and spits out a website.
 
 ### Install
 
+With yarn: 
+
 ```bash
-yarn add sparkdown
+yarn global add sparkdown
 ```
 
-### Configuration
+With npm
 
-Make a configuration file (optional)
+```bash
+npm install -g sparkdown
+```
+
+### Configuration (optional)
+
+To control the look and feel of the website, make a configuration file:
 
 ```bash
 touch sparkdown.json
 ```
 
-Write these options to your `sparkdown.json` file (optional)
+Write these options to your `sparkdown.json` file. If you omit this step, sparkdown will default to:
 
 ```json
 {
@@ -40,18 +48,31 @@ Write these options to your `sparkdown.json` file (optional)
 
 ### Run
 
-Run the following from the root directory of your project (where your `sparkdown.json` is):
+Run the following from the root directory of your project (where your source directory is):
 
 ```bash
 sparkdown
 ```
 
+Sparkdown will read all `.md` files and convert them into `.html` files in your output directory. You can also use `sparkdown` in your npm scripts inside package.json:
+
+```json
+{
+  "name": "super-cool-project",
+  "dependencies": {
+    "sparkdown": "*"
+  },
+  "scripts": {
+    "build-docs": "sparkdown",
+    "deploy-docs": "sparkdown && surge ./docs"
+  }
+}
+```
+
 ### Serve
 
-You can obviously serve the output directory to any hosting, but give it a go with [surge](surge.sh)
+You can serve the output directory to any hosting provider that can deal with basic HTML files.
 
-# Markdown
+## Example
 
-Write markdown files to your source directory ready to be converted in to HTML files.
-
-Take a look at the [example project](./example) for an example project.
+Take a look at the [example project](./example) for an details on how to use markdown (particular attention goes to how you can do relative links between pages).
