@@ -14,7 +14,7 @@ function isRelativePath(href: string): boolean {
 // Takes a href and returns a path based on whether the link is external or internal
 function transformHref(cwd: string, href: string): string {
   const ref = stripQuotesFromString(href)
-  return isRelativePath(ref) ? `${path.resolve(cwd, ref)}.html` : ref
+  return isRelativePath(ref) ? `${path.resolve('../', cwd, ref)}.html` : ref
 }
 
 export default function parser(
@@ -30,6 +30,6 @@ export default function parser(
       return thm.link(transformHref(cwd, href), title, text)
     },
   } as marked.Renderer
-  marked.setOptions({ renderer })
+  marked.setOptions({ renderer, pedantic: true, gfm: false })
   return marked(input)
 }

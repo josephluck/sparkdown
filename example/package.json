@@ -1,0 +1,10 @@
+{
+  "name": "sparkdown-example",
+  "version": "0.0.0",
+  "sparkdown": {
+    "source": "./src",
+    "output": "./dist",
+    "bodyFont": "EB Garamond",
+    "monospaceFont": "Inconsolata"
+  }
+}

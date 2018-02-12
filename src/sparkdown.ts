@@ -44,27 +44,37 @@ function parseDirectory(options: Options) {
         path.resolve(outputBaseDir, outputFileDir),
       )
       const html = theme.layout(htmlContent, themeOptions)
-      console.log(outputFileDir)
       fs.outputFileSync(outputFilePath, html)
       console.log(`Written to ${outputFilePath}`)
+      return html
     }
   }
 }
 
-const defaultConfig = {
+const defaultConfig: Options = {
   source: './src',
   output: './dist',
   bodyFont: 'EB Garamond',
   monospaceFont: 'Inconsolata',
 }
 
-async function run() {
+function getConfig(): Options {
   const configFilePath = path.resolve(process.cwd(), './sparkdown.json')
-  const options = fs.existsSync(configFilePath)
-    ? { ...defaultConfig, ...JSON.parse(fs.readFileSync(configFilePath).toString()) }
-    : defaultConfig
-  const source = await dirToJson(path.resolve(process.cwd(), options.source))
-  source.children
+  const packageJsonPath = path.resolve(process.cwd(), './package.json')
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString())
+  if (fs.existsSync(configFilePath)) {
+    return { ...defaultConfig, ...JSON.parse(fs.readFileSync(configFilePath).toString()) }
+  } else if (packageJson.sparkdown) {
+    return { ...defaultConfig, ...packageJson.sparkdown }
+  } else {
+    return defaultConfig
+  }
+}
+
+async function run() {
+  const options = getConfig()
+  const source: DirToJson = await dirToJson(path.resolve(process.cwd(), options.source))
+  return source.children
     ? source.children.map(parseDirectory(options))
     : [source].map(parseDirectory(options))
 }

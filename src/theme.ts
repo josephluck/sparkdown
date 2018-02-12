@@ -42,6 +42,7 @@ const theme: Theme = {
           <link href="https://fonts.googleapis.com/css?family=${gf(
             monospaceFont,
           )}" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
           <!--[if lt IE 9]>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
           <![endif]-->
@@ -62,8 +63,10 @@ const theme: Theme = {
           main { padding: 2rem 10vw; }
           h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
           ul, li { list-style-type: none; }
+          h1 a, h2 a, h3 a, h4 a { text-decoration: none; border-bottom: none; }
           .df { display: flex; }
           .flex-1 { flex: 1; }
+          .material-icons { font-size: inherit; line-height: inherit; }
           a {
             color: #0086b3;
             text-decoration: none;
@@ -87,10 +90,10 @@ const theme: Theme = {
         return `<div class="bl bw2 b--light-gray pl2 lh-copy gray i">${text}</div>`
       },
       br() {
-        return `<div class="mb3></div>`
+        return `<div class="mv3"></div>`
       },
       code(text, lang) {
-        return `<p class="mono bg-near-white br2 pv1 ph2 lh-copy mb3">${text}</p>`
+        return `<p class="mono bg-near-white br2 pv1 ph2 lh-copy mv3">${text}</p>`
       },
       codespan(text) {
         return `<span class="mono bg-near-white dib br2 ph1">${text}</span>`
@@ -99,23 +102,23 @@ const theme: Theme = {
         return `<del>${text}</del>`
       },
       em(text) {
-        return `<span class="bb b--gray">${text}</span>`
+        return `<span class="i">${text}</span>`
       },
       heading(text, level) {
         if (level === 1) {
-          return `<h1 class="f1 lh-solid mb4">${text}</h1>`
+          return `<h1 class="f1 lh-solid mv4">${text}</h1>`
         } else if (level === 2) {
-          return `<h2 class="normal f3 lh-copy mb3">${text}</h2>`
+          return `<h2 class="normal f3 lh-copy mv3">${text}</h2>`
         } else if (level === 3) {
-          return `<h3 class="normal f4 lh-copy mb2 gray">${text}</h3>`
+          return `<h3 class="normal f4 lh-copy mv2 gray">${text}</h3>`
         } else if (level === 4) {
-          return `<h4 class="normal f5 lh-copy mb1 gray">${text}</h5>`
+          return `<h4 class="normal f5 lh-copy mv1 gray">${text}</h5>`
         } else {
           return `<h5 class="normal f6 lh-copy gray">${text}</h5>`
         }
       },
       hr() {
-        return `<div class="mb3 bb bw2 b--light-gray"></div>`
+        return `<div class="mv3 bb bw2 b--light-gray"></div>`
       },
       html: renderText,
       image(href, title, text) {
@@ -125,19 +128,19 @@ const theme: Theme = {
         return `<a href="${href}" title="${title || text}">${text}</a>`
       },
       list(body) {
-        return `<div class="mb2">${body}</div>`
+        return `<div class="mv3">${body}</div>`
       },
       listitem(text) {
-        return `<div class="lh-copy mb1 ph3">~ ${text}</div>`
+        return `<div class="lh-copy mv1 df"><i class="material-icons light-silver mr1">star</i><span class="flex-1">${text}</span></div>`
       },
       paragraph(text) {
-        return `<p class="lh-copy mb3">${text}</p>`
+        return `<p class="lh-copy mv3">${text}</p>`
       },
       strong(text) {
-        return `<b>${text}</b>`
+        return `<span class="b">${text}</span>`
       },
       table(header, body) {
-        return `<div class="mb3">${header} ${body}</div>`
+        return `<div class="mv3">${header} ${body}</div>`
       },
       tablecell(content, { header, align }) {
         return `
