@@ -77,7 +77,7 @@ Sparkdown will read all `.md` files and convert them into `.html` files in your 
 
 ### Serve
 
-You can serve the output directory to any hosting provider that can deal with basic HTML files.
+You can serve the output directory to any hosting provider that can deal with basic HTML files. [Netlify](https://www.netlify.com/) and [Surge](https://surge.sh) are both solid options.
 
 ## Example
 
