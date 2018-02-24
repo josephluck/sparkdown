@@ -54,7 +54,7 @@ Run the following from the root directory of your project (where your source dir
 sparkdown
 ```
 
-Sparkdown will read all `.md` files and convert them into `.html` files in your output directory. You can also use `sparkdown` in your npm scripts inside package.json:
+Sparkdown will read all `.md` files and convert them into `.html` files in your output directory. You can also use the `sparkdown` build tool in your npm scripts inside `package.json` with configuration:
 
 ```json
 {
@@ -65,6 +65,12 @@ Sparkdown will read all `.md` files and convert them into `.html` files in your 
   "scripts": {
     "build-docs": "sparkdown",
     "deploy-docs": "sparkdown && surge ./docs"
+  },
+  "sparkdown": {
+    "source": "./src",
+    "output": "./dist",
+    "bodyFont": "EB Garamond",
+    "monospaceFont": "Inconsolata"
   }
 }
 ```
