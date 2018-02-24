@@ -68,7 +68,7 @@ Sparkdown will read all `.md` files and convert them into `.html` files in your 
   },
   "sparkdown": {
     "source": "./src",
-    "output": "./dist",
+    "output": "./docs",
     "bodyFont": "EB Garamond",
     "monospaceFont": "Inconsolata"
   }
