@@ -40,7 +40,7 @@ Write these options to your `sparkdown.json` file. If you omit this step, sparkd
   "monospaceFont": "Inconsolata",
   "author": "My Name",
   "description": "Super duper website",
-  "title: "My Name's Super duper website"
+  "title: "Super duper website"
 }
 ```
 
@@ -68,7 +68,7 @@ You can also add a `sparkdown` key to your `package.json` file and sparkdown wil
     "monospaceFont": "Inconsolata",
     "author": "My Name",
     "description": "Super duper website",
-    "title: "My Name's Super duper website"
+    "title: "Super duper website"
   }
 }
 ```
