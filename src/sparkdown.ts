@@ -29,13 +29,12 @@ function parseDirectory(options: Options) {
     } else if (isMarkdown) {
       const inputPath = path.resolve(process.cwd(), options.source, directory.path)
       const outputFileDir = directory.path.split('.')[0]
-      const outputFileName = `${outputFileDir}.html`
-      const outputFilePath = path.resolve(outputBaseDir, outputFileName)
+      const outputFilePath = path.resolve(outputBaseDir, `${outputFileDir}.html`)
       const sourceMarkdownFile = fs.readFileSync(inputPath).toString()
       const htmlContent = parser(
         sourceMarkdownFile,
         theme.renderer,
-        path.resolve(outputBaseDir, outputFileDir),
+        '/' + directory.parent,
       )
       const html = theme.layout(htmlContent, options)
       fs.outputFileSync(outputFilePath, html)

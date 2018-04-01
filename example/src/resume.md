@@ -1,6 +1,6 @@
-# [Christopher Cross](../index)
+# [Christopher Cross](./index)
 
-##### Earth | christopher@cross.com | [Resume](../resume)
+##### Earth | christopher@cross.com | [Resume](./resume)
 
 ---
 

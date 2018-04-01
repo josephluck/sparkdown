@@ -1,6 +1,6 @@
 {
   "name": "sparkdown",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./bin/sparkdown.js",
   "license": "MIT",
   "dependencies": {
@@ -12,6 +12,7 @@
     "fs-extra": "^5.0.0",
     "marked": "^0.3.12",
     "prettier": "^1.10.2",
+    "serve": "^6.5.3",
     "tape": "^4.8.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
@@ -30,7 +31,8 @@
     "sparkdown": "npm run build && npm run example",
     "build": "rm -rf ./bin && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "example": "npm run build && cd example && node ../bin/sparkdown.js && cd ../"
+    "build-example": "npm run build && cd example && node ../bin/sparkdown.js && cd ../",
+    "example": "npm run build-example && serve ./example/dist"
   },
   "bin": {
     "sparkdown": "./bin/sparkdown.js"

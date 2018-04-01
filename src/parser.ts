@@ -6,29 +6,25 @@ function stripQuotesFromString(str: string): string {
   return split.length > 1 ? split[1] : split[0]
 }
 
-// If the href beings with a '/' such as '/foo/bar/baz'
 function isRelativePath(href: string): boolean {
   return !href.includes('http://') && !href.includes('https://')
 }
 
 // Takes a href and returns a path based on whether the link is external or internal
-function transformHref(cwd: string, href: string): string {
+function transformHref(root: string, href: string): string {
   const ref = stripQuotesFromString(href)
-  return isRelativePath(ref) ? `${path.resolve('../', cwd, ref)}.html` : ref
+  return isRelativePath(ref) ? `${path.resolve(root, ref)}.html` : ref
 }
 
 export default function parser(
   input: string,
   theme: () => marked.Renderer,
-  cwd: string,
-  options?: marked.MarkedOptions,
+  root: string,
 ) {
   const thm = theme()
   const renderer: marked.Renderer = {
     ...thm,
-    link(href, title, text) {
-      return thm.link(transformHref(cwd, href), title, text)
-    },
+    link: (href, title, text) => thm.link(transformHref(root, href), title, text),
   } as marked.Renderer
   marked.setOptions({ renderer, pedantic: true, gfm: false })
   return marked(input)
