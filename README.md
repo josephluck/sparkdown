@@ -37,7 +37,10 @@ Write these options to your `sparkdown.json` file. If you omit this step, sparkd
   "source": "./src",
   "output": "./dist",
   "bodyFont": "EB Garamond",
-  "monospaceFont": "Inconsolata"
+  "monospaceFont": "Inconsolata",
+  "author": "My Name",
+  "description": "Super duper website",
+  "title: "My Name's Super duper website"
 }
 ```
 
@@ -46,15 +49,7 @@ Write these options to your `sparkdown.json` file. If you omit this step, sparkd
 - `bodyFont`: Any valid google webfont
 - `monospaceFont`: Any valid google webfont (used when rendering `code` snippets)
 
-### Run
-
-Run the following from the root directory of your project (where your source directory is):
-
-```bash
-sparkdown
-```
-
-Sparkdown will read all `.md` files and convert them into `.html` files in your output directory. You can also use the `sparkdown` build tool in your npm scripts inside `package.json` with configuration:
+You can also add a `sparkdown` key to your `package.json` file and sparkdown will read from it instead of the config file:
 
 ```json
 {
@@ -70,10 +65,23 @@ Sparkdown will read all `.md` files and convert them into `.html` files in your 
     "source": "./src",
     "output": "./docs",
     "bodyFont": "EB Garamond",
-    "monospaceFont": "Inconsolata"
+    "monospaceFont": "Inconsolata",
+    "author": "My Name",
+    "description": "Super duper website",
+    "title: "My Name's Super duper website"
   }
 }
 ```
+
+### Run
+
+Run the following from the root directory of your project (where your source directory is):
+
+```bash
+sparkdown
+```
+
+Sparkdown will read all `.md` files and convert them into `.html` files in your output directory.
 
 ### Serve
 

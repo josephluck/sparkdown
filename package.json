@@ -1,6 +1,6 @@
 {
   "name": "sparkdown",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "main": "./bin/sparkdown.js",
   "license": "MIT",
   "dependencies": {

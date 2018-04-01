@@ -4,13 +4,11 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
 import parser from './parser'
-import theme from './theme'
+import theme, { ThemeOptions, defaultTheme } from './theme'
 
-interface Options {
+interface Options extends Partial<ThemeOptions> {
   source: string
   output: string
-  bodyFont?: string
-  monospaceFont?: string
 }
 
 interface DirToJson {
@@ -23,10 +21,6 @@ interface DirToJson {
 
 function parseDirectory(options: Options) {
   const outputBaseDir = path.resolve(process.cwd(), options.output)
-  const themeOptions = {
-    bodyFont: options.bodyFont,
-    monospaceFont: options.monospaceFont,
-  }
   return function parse(directory: DirToJson) {
     const isDirectory = directory.type === 'directory' && directory.children
     const isMarkdown = directory.name.includes('.md')
@@ -43,7 +37,7 @@ function parseDirectory(options: Options) {
         theme.renderer,
         path.resolve(outputBaseDir, outputFileDir),
       )
-      const html = theme.layout(htmlContent, themeOptions)
+      const html = theme.layout(htmlContent, options)
       fs.outputFileSync(outputFilePath, html)
       console.log(`Written to ${outputFilePath}`)
       return html
@@ -54,8 +48,7 @@ function parseDirectory(options: Options) {
 const defaultConfig: Options = {
   source: './src',
   output: './dist',
-  bodyFont: 'EB Garamond',
-  monospaceFont: 'Inconsolata',
+  ...defaultTheme,
 }
 
 function getConfig(): Options {

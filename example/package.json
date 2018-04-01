@@ -5,6 +5,9 @@
     "source": "./src",
     "output": "./dist",
     "bodyFont": "EB Garamond",
-    "monospaceFont": "Inconsolata"
+    "monospaceFont": "Inconsolata",
+    "title": "Christopher Cross - Widget Maker",
+    "author": "Christopher Cross",
+    "description": "I'm a chief widget maker"
   }
 }

@@ -16,19 +16,27 @@ export interface Theme {
 export interface ThemeOptions {
   bodyFont?: string
   monospaceFont?: string
-  title?: string
-  description?: string
   author?: string
+  description?: string
+  title?: string
+}
+
+export const defaultTheme: ThemeOptions = {
+  bodyFont: 'EB Garamond',
+  monospaceFont: 'Inconsolata',
+  author: '',
+  description: '',
+  title: 'My Site',
 }
 
 const theme: Theme = {
-  layout(content: string, options: ThemeOptions = {}) {
+  layout(content: string, options: ThemeOptions) {
     const {
-      bodyFont = 'Source Sans Pro',
-      monospaceFont = 'Source Code Pro',
-      title = 'Sparkdown',
-      description = 'Sparkdown - a static site generator',
-      author = 'Sparkdown',
+      bodyFont,
+      monospaceFont,
+      title,
+      description,
+      author,
     } = options
     return `
       <html>
@@ -37,29 +45,29 @@ const theme: Theme = {
           <meta name="description" content="${description}">
           <meta name="author" content="${author}">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
           <link href="https://fonts.googleapis.com/css?family=${gf(bodyFont)}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/css?family=${gf(
-            monospaceFont,
-          )}" rel="stylesheet">
+        monospaceFont,
+      )}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
           <!--[if lt IE 9]>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
           <![endif]-->
+          <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
         </head>
         <style>
           html, body {
             margin: 0px;
             padding: 0px;
             font-size: 20px;
-            font-family: ${bodyFont};
+            font-family: "${bodyFont}", sans-serif;
             background-color: white;
             color: rgb(20, 20, 20);
             display: flex;
             align-items: center;
             min-height: 100%;
           }
-          .mono { font-family: ${monospaceFont}; }
+          .mono { font-family: "${monospaceFont}", monospace; }
           main { padding: 2rem 10vw; }
           h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
           ul, li { list-style-type: none; }
@@ -69,8 +77,6 @@ const theme: Theme = {
           .material-icons { font-size: inherit; line-height: inherit; }
           a {
             color: #0086b3;
-            text-decoration: none;
-            border-bottom: solid 1px #0086b3;
           }
           @media screen and (min-width: 50em) {
             html, body { font-size: 24px; }
@@ -106,7 +112,7 @@ const theme: Theme = {
       },
       heading(text, level) {
         if (level === 1) {
-          return `<h1 class="f1 lh-solid mv4">${text}</h1>`
+          return `<h1 class="f1 lh-solid mv3">${text}</h1>`
         } else if (level === 2) {
           return `<h2 class="normal f3 lh-copy mv3">${text}</h2>`
         } else if (level === 3) {
@@ -118,7 +124,7 @@ const theme: Theme = {
         }
       },
       hr() {
-        return `<div class="mv3 bb bw2 b--light-gray"></div>`
+        return `<div class="mv4 bb b--black-10"></div>`
       },
       html: renderText,
       image(href, title, text) {
@@ -131,7 +137,7 @@ const theme: Theme = {
         return `<div class="mv3">${body}</div>`
       },
       listitem(text) {
-        return `<div class="lh-copy mv1 df"><i class="material-icons light-silver mr1">star</i><span class="flex-1">${text}</span></div>`
+        return `<div class="lh-copy mv1 df"><i class="material-icons light-silver mr1">radio_button_unchecked</i><span class="flex-1">${text}</span></div>`
       },
       paragraph(text) {
         return `<p class="lh-copy mv3">${text}</p>`
