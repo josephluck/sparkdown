@@ -1,16 +1,5 @@
 import * as marked from 'marked'
-import * as path from 'path'
-import { stripQuotesFromString } from './utils';
-
-function isRelativePath(href: string): boolean {
-  return !href.includes('http://') && !href.includes('https://')
-}
-
-// Takes a href and returns a path based on whether the link is external or internal
-function transformHref(root: string, href: string): string {
-  const ref = stripQuotesFromString(href)
-  return isRelativePath(ref) ? `${path.resolve(root, ref)}.html` : ref
-}
+import { transformHref } from './utils';
 
 export default function parser(
   input: string,

@@ -17,7 +17,7 @@ export interface LayoutOptions {
   pageTitle: string | null
   content: string
   options: ThemeOptions
-  tree: Nav[]
+  tree: Tree[]
 }
 
 export interface Theme {
@@ -39,11 +39,12 @@ export interface WriteCss {
   content: string
 }
 
-export interface Nav {
+export interface Tree {
   name: string
-  inputPath: string
+  inputFilePath: string
+  outputFilePath: string
   htmlLink: string | null
-  children: Nav[]
+  children: Tree[]
   type: 'directory' | 'page'
 }
 

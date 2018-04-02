@@ -1,4 +1,4 @@
-import { ThemeOptions, Theme, Nav } from './types';
+import { ThemeOptions, Theme, Tree } from './types';
 
 function gf(f: string): string {
   return f.split(' ').join('+')
@@ -12,7 +12,7 @@ export const defaultTheme: ThemeOptions = {
   title: 'My Site',
 }
 
-function renderNavItem(navItem: Nav): string {
+function renderNavItem(navItem: Tree): string {
   if (navItem.type === 'page') {
     return `<div class="ml2 mv1">${theme.renderer().link(navItem.htmlLink, navItem.name, navItem.name)}</div>`
   } else {
@@ -75,6 +75,7 @@ const theme: Theme = {
         </head>
         <body>
           <nav>
+            ${JSON.stringify(tree)}
             ${tree.map(renderNavItem).join('')}
           </nav>
           <main>

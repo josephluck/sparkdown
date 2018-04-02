@@ -5,7 +5,7 @@ import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
 import parser from './parser'
 import theme, { defaultTheme } from './theme'
-import { capitalizeString, spacifyString, dashifyString, treeToNav } from './utils';
+import { capitalizeString, spacifyString, dashifyString, makeTree } from './utils';
 import { Options, DirToJson, Css } from './types';
 
 // "some-long-title.md" -> "Some Long Title" 
@@ -36,7 +36,7 @@ function parseDirectory(options: Options, tree: DirToJson) {
         theme.renderer,
         '/' + directory.parent,
       )
-      const html = theme.run({ pageTitle: directoryNameToTitle(directory.name), content: htmlContent, options, tree: treeToNav(options, tree) })
+      const html = theme.run({ pageTitle: directoryNameToTitle(directory.name), content: htmlContent, options, tree: makeTree(options, tree) })
       fs.outputFileSync(outputFilePath, html)
       console.log(`Written HTML to ${outputFilePath}`)
       return html
