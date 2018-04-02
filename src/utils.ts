@@ -1,13 +1,13 @@
-export function dashifyString(str: string): string {
-  return str.replace(/\s/g, '-')
-}
-
 export function hasLength<A extends any[] | string>(str: A): boolean {
   return str.length > 0
 }
 
 export function capitalizeString(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+export function dashifyString(str: string): string {
+  return str.replace(/\s/g, '-')
 }
 
 export function spacifyString(str: string): string {

@@ -20,7 +20,9 @@ interface DirToJson {
   children?: DirToJson[]
 }
 
-// "some-title.md" -> "Some Title" 
+// "some-long-title.md" -> "Some Long Title" 
+// "shorter-title.md" -> "Shorter Title" 
+// "title.md" -> "Title"
 function directoryNameToTitle(dirName: string): string | null {
   const fileName = dirName.split('.')[0]
   const withoutAlphanumeric = spacifyString(fileName).split(' ')

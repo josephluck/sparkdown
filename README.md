@@ -1,5 +1,7 @@
 # :zap:Sparkdown:point_down:
 
+![Sparkdown - Static Site Generator][./logo.svg]
+
 Yet another static site generator based on markdown files
 
 ## What?
