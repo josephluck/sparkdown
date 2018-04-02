@@ -3,7 +3,7 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
-import parser from './parser'
+import parser, { dashifyString } from './parser'
 import theme, { ThemeOptions, defaultTheme, Css } from './theme'
 
 interface Options extends Partial<ThemeOptions> {
@@ -29,7 +29,7 @@ function parseDirectory(options: Options) {
     } else if (isMarkdown) {
       const inputPath = path.resolve(process.cwd(), options.source, directory.path)
       const outputFileDir = directory.path.split('.')[0]
-      const outputFilePath = path.resolve(outputBaseDir, `${outputFileDir}.html`)
+      const outputFilePath = path.resolve(outputBaseDir, `${dashifyString(outputFileDir)}.html`)
       const sourceMarkdownFile = fs.readFileSync(inputPath).toString()
       const htmlContent = parser(
         sourceMarkdownFile,

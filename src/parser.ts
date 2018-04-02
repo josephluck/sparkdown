@@ -6,6 +6,10 @@ function stripQuotesFromString(str: string): string {
   return split.length > 1 ? split[1] : split[0]
 }
 
+export function dashifyString(str: string): string {
+  return str.replace(/\s/g, '-')
+}
+
 function isRelativePath(href: string): boolean {
   return !href.includes('http://') && !href.includes('https://')
 }

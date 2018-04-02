@@ -31,7 +31,7 @@
     "sparkdown": "npm run build && npm run example",
     "build": "rm -rf ./bin && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-example": "npm run build && cd example && node ../bin/sparkdown.js && cd ../",
+    "build-example": "npm run build && cd example && rm -rf ./dist && node ../bin/sparkdown.js && cd ../",
     "example": "npm run build-example && serve ./example/dist"
   },
   "bin": {

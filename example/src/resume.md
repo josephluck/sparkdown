@@ -2,10 +2,10 @@
 [everything](./everything)
 [first](./first/first)
 [first2](./first/first2)
-[first3](./first/first3)
+[first3](./first/first-3)
 [second](./first/second/second)
-[second2](./first/second/second2)
-[third](./first/second/third/third)
+[second2](./first/second/second-2)
+[third](./first/second/third-directory/third)
 
 # [Christopher Cross](./index)
 

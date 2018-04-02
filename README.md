@@ -36,7 +36,7 @@ To control the look and feel of the website, make a configuration file:
 touch sparkdown.json
 ```
 
-Write these options to your `sparkdown.json` file. If you omit this step, sparkdown will default to:
+Write these options to your `sparkdown.json` file. Sparkdown comes with some sensible defaults, but here's an example:
 
 ```json
 {
