@@ -1,15 +1,17 @@
 import * as marked from 'marked'
 
-function renderText(content: string) {
-  return content
-}
-
 function gf(f: string): string {
   return f.split(' ').join('+')
 }
 
+export interface LayoutOptions {
+  content: string
+  options: ThemeOptions
+}
+
 export interface Theme {
-  layout: (content: string, options?: ThemeOptions) => string
+  css?: Css
+  layout: (options: LayoutOptions) => string
   renderer: () => marked.Renderer
 }
 
@@ -21,6 +23,13 @@ export interface ThemeOptions {
   title?: string
 }
 
+export interface WriteCss {
+  filename: string
+  content: string
+}
+
+export type Css = (options: ThemeOptions) => WriteCss
+
 export const defaultTheme: ThemeOptions = {
   bodyFont: 'EB Garamond',
   monospaceFont: 'Inconsolata',
@@ -30,58 +39,55 @@ export const defaultTheme: ThemeOptions = {
 }
 
 const theme: Theme = {
-  layout(content: string, options: ThemeOptions) {
-    const {
-      bodyFont,
-      monospaceFont,
-      title,
-      description,
-      author,
-    } = options
+  css(options: ThemeOptions) {
+    return {
+      filename: 'style.css',
+      content: `
+        html, body {
+          margin: 0px;
+          padding: 0px;
+          font-size: 20px;
+          font-family: "${options.bodyFont}", sans-serif;
+          background-color: white;
+          color: rgb(20, 20, 20);
+          display: flex;
+          align-items: center;
+          min-height: 100%;
+        }
+        .mono { font-family: "${options.monospaceFont}", monospace; }
+        main { padding: 2rem 10vw; }
+        h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
+        ul, li { list-style-type: none; }
+        h1 a, h2 a, h3 a, h4 a { text-decoration: none; border-bottom: none; }
+        .df { display: flex; }
+        .flex-1 { flex: 1; }
+        .material-icons { font-size: inherit; line-height: inherit; }
+        a {
+          color: #0086b3;
+        }
+        @media screen and (min-width: 50em) {
+          html, body { font-size: 24px; }
+        }
+      `
+    }
+  },
+  layout({ content, options }) {
     return `
       <html>
         <head>
-          <title>${title}</title>
-          <meta name="description" content="${description}">
-          <meta name="author" content="${author}">
+          <title>${options.title}</title>
+          <meta name="description" content="${options.description}">
+          <meta name="author" content="${options.author}">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link href="https://fonts.googleapis.com/css?family=${gf(bodyFont)}" rel="stylesheet">
-          <link href="https://fonts.googleapis.com/css?family=${gf(
-        monospaceFont,
-      )}" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css?family=${gf(options.bodyFont)}" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css?family=${gf(options.monospaceFont)}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
           <!--[if lt IE 9]>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
           <![endif]-->
           <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
+          <link rel="stylesheet" href="/style.css" />
         </head>
-        <style>
-          html, body {
-            margin: 0px;
-            padding: 0px;
-            font-size: 20px;
-            font-family: "${bodyFont}", sans-serif;
-            background-color: white;
-            color: rgb(20, 20, 20);
-            display: flex;
-            align-items: center;
-            min-height: 100%;
-          }
-          .mono { font-family: "${monospaceFont}", monospace; }
-          main { padding: 2rem 10vw; }
-          h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
-          ul, li { list-style-type: none; }
-          h1 a, h2 a, h3 a, h4 a { text-decoration: none; border-bottom: none; }
-          .df { display: flex; }
-          .flex-1 { flex: 1; }
-          .material-icons { font-size: inherit; line-height: inherit; }
-          a {
-            color: #0086b3;
-          }
-          @media screen and (min-width: 50em) {
-            html, body { font-size: 24px; }
-          }
-        </style>
         <body>
           <main>
             ${content}
@@ -126,7 +132,7 @@ const theme: Theme = {
       hr() {
         return `<div class="mv4 bb b--black-10"></div>`
       },
-      html: renderText,
+      html(text: string) { return text },
       image(href, title, text) {
         return `<img src="${href}" title="${title || text}" />`
       },
@@ -159,7 +165,7 @@ const theme: Theme = {
       tablerow(content) {
         return `<div class="df">${content}</div>`
       },
-      text: renderText,
+      text(text: string) { return text },
     }
   },
 }
