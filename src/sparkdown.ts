@@ -48,7 +48,7 @@ function parseDirectory(options: Options) {
       )
       const html = theme.layout({ pageTitle: directoryNameToTitle(directory.name), content: htmlContent, options })
       fs.outputFileSync(outputFilePath, html)
-      // console.log(`Written HTML to ${outputFilePath}`)
+      console.log(`Written HTML to ${outputFilePath}`)
       return html
     }
   }
