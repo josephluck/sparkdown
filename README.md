@@ -10,15 +10,21 @@ Takes a source directory of markdown files and spits out a website.
 
 ### Install
 
+Install `node` and `npm` or `yarn`
+
 With yarn: 
 
 ```bash
+mkdir website; cd website
+yarn init
 yarn global add sparkdown
 ```
 
 With npm
 
 ```bash
+mkdir website; cd website
+npm init
 npm install -g sparkdown
 ```
 
