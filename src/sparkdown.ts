@@ -3,8 +3,9 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
-import parser, { dashifyString } from './parser'
+import parser from './parser'
 import theme, { ThemeOptions, defaultTheme, Css } from './theme'
+import { capitalizeString, spacifyString, dashifyString } from './utils';
 
 interface Options extends Partial<ThemeOptions> {
   source: string
@@ -17,6 +18,15 @@ interface DirToJson {
   type: 'directory' | 'file'
   name: string
   children?: DirToJson[]
+}
+
+// "some-title.md" -> "Some Title" 
+function directoryNameToTitle(dirName: string): string | null {
+  const fileName = dirName.split('.')[0]
+  const withoutAlphanumeric = spacifyString(fileName).split(' ')
+  return withoutAlphanumeric.length
+    ? withoutAlphanumeric.map(capitalizeString).join(' ')
+    : capitalizeString(fileName[0])
 }
 
 function parseDirectory(options: Options) {
@@ -36,9 +46,9 @@ function parseDirectory(options: Options) {
         theme.renderer,
         '/' + directory.parent,
       )
-      const html = theme.layout({ content: htmlContent, options })
+      const html = theme.layout({ pageTitle: directoryNameToTitle(directory.name), content: htmlContent, options })
       fs.outputFileSync(outputFilePath, html)
-      console.log(`Written HTML to ${outputFilePath}`)
+      // console.log(`Written HTML to ${outputFilePath}`)
       return html
     }
   }

@@ -1,14 +1,6 @@
 import * as marked from 'marked'
 import * as path from 'path'
-
-function stripQuotesFromString(str: string): string {
-  const split = str.split('&#39;')
-  return split.length > 1 ? split[1] : split[0]
-}
-
-export function dashifyString(str: string): string {
-  return str.replace(/\s/g, '-')
-}
+import { stripQuotesFromString } from './utils';
 
 function isRelativePath(href: string): boolean {
   return !href.includes('http://') && !href.includes('https://')

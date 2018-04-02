@@ -5,6 +5,7 @@ function gf(f: string): string {
 }
 
 export interface LayoutOptions {
+  pageTitle: string | null
   content: string
   options: ThemeOptions
 }
@@ -71,11 +72,11 @@ const theme: Theme = {
       `
     }
   },
-  layout({ content, options }) {
+  layout({ pageTitle, content, options }) {
     return `
       <html>
         <head>
-          <title>${options.title}</title>
+          <title>${options.title}${pageTitle ? ` - ${pageTitle}` : ''}</title>
           <meta name="description" content="${options.description}">
           <meta name="author" content="${options.author}">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
