@@ -8,40 +8,27 @@ import theme, { defaultTheme } from './theme'
 import { Options, DirToJson, Css, SiteTree } from './types';
 import { directoryNameToTitle, dashifyString } from './utils';
 
-function linkToFirstPageInDirectory(source: DirToJson): string | null {
-  if (source.children) {
-    const child = source.children.find(dir => dir.name.includes('index')) || source.children.find(dir => dir.type === 'file')
-    return child
-      ? `/${makeHtmlLink(child)}`
-      : null
-  } else {
-    return null
-  }
-}
-
-function makeHtmlLink(source: DirToJson): string {
-  return `${dashifyString(source.path.split('.md')[0])}.html`
-}
-
-function mapTree(options: Options, source: DirToJson): SiteTree {
+function mapTree(options: Options) {
   const outputBaseDir = path.resolve(process.cwd(), options.output)
-  const isDirectory = source.type === 'directory' && source.children && source.children.length
-  const htmlLinkPath = makeHtmlLink(source)
-  return {
-    type: isDirectory ? 'directory' : 'page',
-    name: directoryNameToTitle(source.name),
-    inputFilePath: path.resolve(process.cwd(), options.source, source.path),
-    outputFilePath: path.resolve(outputBaseDir, htmlLinkPath),
-    htmlLink: isDirectory ? linkToFirstPageInDirectory(source) : `/${htmlLinkPath}`,
-    children: isDirectory ? source.children.map(d => mapTree(options, d)) : [],
-    parent: source.parent,
+  return function run(source: DirToJson): SiteTree {
+    const isDirectory = source.type === 'directory' && source.children && source.children.length
+    const htmlLinkPath = makeHtmlLink(source)
+    return {
+      type: isDirectory ? 'directory' : 'page',
+      name: directoryNameToTitle(source.name),
+      inputFilePath: path.resolve(process.cwd(), options.source, source.path),
+      outputFilePath: path.resolve(outputBaseDir, htmlLinkPath),
+      htmlLink: isDirectory ? linkToFirstPageInDirectory(source) : `/${htmlLinkPath}`,
+      children: isDirectory ? source.children.map(run) : [],
+      parent: source.parent,
+    }
   }
 }
 
 function makeTree(options: Options, source: DirToJson): SiteTree[] {
   return source.children
-    ? source.children.map(dir => mapTree(options, dir))
-    : [source].map(dir => mapTree(options, dir))
+    ? source.children.map(mapTree(options))
+    : [source].map(mapTree(options))
 }
 
 function processMarkdown(options: Options, tree: SiteTree[]) {
@@ -83,11 +70,26 @@ function getConfig(): Options {
   }
 }
 
+function linkToFirstPageInDirectory(source: DirToJson): string | null {
+  if (source.children) {
+    const child = source.children.find(dir => dir.name.includes('index')) || source.children.find(dir => dir.type === 'file')
+    return child
+      ? `/${makeHtmlLink(child)}`
+      : null
+  } else {
+    return null
+  }
+}
+
+function makeHtmlLink(source: DirToJson): string {
+  return `${dashifyString(source.path.split('.md')[0])}.html`
+}
+
 function writeCss(css: Css, options: Options) {
   const result = css(options)
   const outputFilePath = path.resolve(process.cwd(), options.output, result.filename)
-  console.log(`Written CSS to ${outputFilePath}`)
   fs.outputFileSync(outputFilePath, result.content)
+  console.log(`Written CSS to ${outputFilePath}`)
 }
 
 async function run() {
