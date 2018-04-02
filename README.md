@@ -116,14 +116,14 @@ src/projects/second-project.md
 This directory structure will result in the following menu:
 
 ```
-Home (index.html)
-Contact (contact.html)
-Blog (blog/index.html)
-  My First Post (blog/my-first-post.md)
-  My Second Post (blog/my-second-post.md)
-Projects (projects/first-project.html)
-  First Project (blog/first-project.md)
-  Second Project (blog/second-project.md)
+Home
+Contact
+Blog
+  My First Post
+  My Second Post
+Projects
+  First Project
+  Second Project
 ```
 
 A subtlety thats worth noting is that directories that contain an `index.md` file will have the directory title in the menu link to the `index`. If there is no `index` in the directory, sparkdown will link the directory to the first file it can find inside the directory. You can see the difference displayed above between the `blog` and `projects` directories.
