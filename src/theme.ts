@@ -15,10 +15,10 @@ export const defaultTheme: ThemeOptions = {
 function renderNavItem(navItem: SiteTree): string {
   const components = theme.renderer()
   return `
-    <div class="mb2 ml3">
+    <div class="mb1 ml3">
       ${navItem.htmlLink
       ? `
-          <div class="mb2">
+          <div class="mb1 truncate">
             ${components.link(navItem.htmlLink, navItem.name, navItem.name)}
           </div>
         `
@@ -92,6 +92,7 @@ const theme: Theme = {
             top: 0px;
             height: 100%;
             z-index: 10;
+            max-width: none;
           }
         }
         
@@ -159,9 +160,9 @@ const theme: Theme = {
           </script>
         </head>
         <body class="df">
-          <nav class="bg-near-white pv4 overflow-auto lh-copy transition slide-out">
+          <nav class="bg-near-white pv4 overflow-auto lh-copy mw5 transition slide-out">
             <div class="pv3 pl3 pr4 w-100">
-              <div class="mb2 ml3">
+              <div class="mb1 ml3 overflow-hidden truncate">
                 ${components.link('/', 'Home', 'Home')}
               </div>
               ${tree.filter(isntIndexFile).map(renderNavItem).join('')}
@@ -170,8 +171,8 @@ const theme: Theme = {
           <main class="flex-1 h-100 overflow-auto transition">
             <div class="ph10vw pv4">
               <div class="df pointer mv3" id="nav-toggle">
-                <i class="material-icons mr1 light-silver">menu</i>
-                <span class="grey">Menu</span>
+                <i class="material-icons mr1 gray">menu</i>
+                <span class="gray b">Menu</span>
               </div>
               ${content}
             </div>
