@@ -40,12 +40,13 @@ export interface WriteCss {
 }
 
 export interface Tree {
+  type: 'directory' | 'page'
   name: string
   inputFilePath: string
   outputFilePath: string
   htmlLink: string | null
   children: Tree[]
-  type: 'directory' | 'page'
+  parent: string
 }
 
 export type Css = (options: ThemeOptions) => WriteCss

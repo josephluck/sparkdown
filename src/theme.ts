@@ -74,10 +74,6 @@ const theme: Theme = {
           <link rel="stylesheet" href="/style.css" />
         </head>
         <body>
-          <nav>
-            ${JSON.stringify(tree)}
-            ${tree.map(renderNavItem).join('')}
-          </nav>
           <main>
             ${content}
           </main>

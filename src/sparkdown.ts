@@ -5,43 +5,47 @@ import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
 import parser from './parser'
 import theme, { defaultTheme } from './theme'
-import { capitalizeString, spacifyString, dashifyString, makeTree } from './utils';
-import { Options, DirToJson, Css } from './types';
+import { Options, DirToJson, Css, Tree } from './types';
+import { directoryNameToTitle, transformHref, dashifyString } from './utils';
 
-// "some-long-title.md" -> "Some Long Title" 
-// "shorter-title.md" -> "Shorter Title" 
-// "title.md" -> "Title"
-function directoryNameToTitle(dirName: string): string | null {
-  const fileName = dirName.split('.')[0]
-  const withoutAlphanumeric = spacifyString(fileName).split(' ')
-  return withoutAlphanumeric.length
-    ? withoutAlphanumeric.map(capitalizeString).join(' ')
-    : capitalizeString(fileName[0])
+function mapTree(options: Options, source: DirToJson): Tree {
+  const outputBaseDir = path.resolve(process.cwd(), options.output)
+  const isDirectory = source.type === 'directory' && source.children && source.children.length
+  return {
+    type: isDirectory ? 'directory' : 'page',
+    name: directoryNameToTitle(source.name),
+    inputFilePath: path.resolve(process.cwd(), options.source, source.path),
+    outputFilePath: path.resolve(outputBaseDir, `${dashifyString(source.path.split('.')[0])}.html`),
+    htmlLink: isDirectory ? null : transformHref('/' + source.parent, source.path.split('.md')[0]),
+    children: isDirectory ? source.children.map(d => mapTree(options, d)) : [],
+    parent: source.parent,
+  }
 }
 
-function parseDirectory(options: Options, tree: DirToJson) {
-  const outputBaseDir = path.resolve(process.cwd(), options.output)
-  return function parse(directory: DirToJson) {
-    const isDirectory = directory.type === 'directory' && directory.children
-    const isMarkdown = directory.name.includes('.md')
-    if (isDirectory) {
-      directory.children.map(parse)
-    } else if (isMarkdown) {
-      const inputPath = path.resolve(process.cwd(), options.source, directory.path)
-      const outputFileDir = directory.path.split('.')[0]
-      const outputFilePath = path.resolve(outputBaseDir, `${dashifyString(outputFileDir)}.html`)
-      const sourceMarkdownFile = fs.readFileSync(inputPath).toString()
+function makeTree(options: Options, source: DirToJson): Tree[] {
+  return source.children
+    ? source.children.map(dir => mapTree(options, dir))
+    : [source].map(dir => mapTree(options, dir))
+}
+
+function processMarkdown(options: Options, tree: Tree[]) {
+  function processTree(currentTree: Tree) {
+    if (currentTree.type === 'directory') {
+      currentTree.children.map(processTree)
+    } else {
+      const sourceMarkdownFile = fs.readFileSync(currentTree.inputFilePath).toString()
       const htmlContent = parser(
         sourceMarkdownFile,
         theme.renderer,
-        '/' + directory.parent,
+        '/' + currentTree.parent,
       )
-      const html = theme.run({ pageTitle: directoryNameToTitle(directory.name), content: htmlContent, options, tree: makeTree(options, tree) })
-      fs.outputFileSync(outputFilePath, html)
-      console.log(`Written HTML to ${outputFilePath}`)
+      const html = theme.run({ pageTitle: currentTree.name, content: htmlContent, options, tree })
+      fs.outputFileSync(currentTree.outputFilePath, html)
+      console.log(`Written HTML to ${currentTree.outputFilePath}`)
       return html
     }
   }
+  return tree.map(processTree)
 }
 
 const defaultConfig: Options = {
@@ -72,13 +76,12 @@ function writeCss(css: Css, options: Options) {
 
 async function run() {
   const options = getConfig()
-  const tree: DirToJson = await dirToJson(path.resolve(process.cwd(), options.source))
+  const source: DirToJson = await dirToJson(path.resolve(process.cwd(), options.source))
   if (theme.css) {
     writeCss(theme.css, options)
   }
-  return tree.children
-    ? tree.children.map(parseDirectory(options, tree))
-    : [tree].map(parseDirectory(options, tree))
+  const tree = makeTree(options, source)
+  return processMarkdown(options, tree)
 }
 
 run()
