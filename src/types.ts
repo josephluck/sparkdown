@@ -17,7 +17,7 @@ export interface LayoutOptions {
   pageTitle: string | null
   content: string
   options: ThemeOptions
-  tree: Tree[]
+  tree: SiteTree[]
 }
 
 export interface Theme {
@@ -39,13 +39,13 @@ export interface WriteCss {
   content: string
 }
 
-export interface Tree {
+export interface SiteTree {
   type: 'directory' | 'page'
   name: string
   inputFilePath: string
   outputFilePath: string
   htmlLink: string | null
-  children: Tree[]
+  children: SiteTree[]
   parent: string
 }
 

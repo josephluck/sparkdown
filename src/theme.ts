@@ -1,4 +1,4 @@
-import { ThemeOptions, Theme, Tree } from './types';
+import { ThemeOptions, Theme, SiteTree } from './types';
 
 function gf(f: string): string {
   return f.split(' ').join('+')
@@ -12,14 +12,25 @@ export const defaultTheme: ThemeOptions = {
   title: 'My Site',
 }
 
-function renderNavItem(navItem: Tree): string {
-  if (navItem.type === 'page') {
-    return `<div class="ml2 mv1">${theme.renderer().link(navItem.htmlLink, navItem.name, navItem.name)}</div>`
-  } else {
-    return `
-      <div class="ml2 mv3">${theme.renderer().strong(navItem.name)} <br /> ${navItem.children.map(renderNavItem).join('')}</div>
-    `
-  }
+function renderNavItem(navItem: SiteTree): string {
+  const components = theme.renderer()
+  return `
+    <div class="mb2 ml3">
+      ${navItem.htmlLink
+      ? `
+          <div class="mb2">
+            ${components.link(navItem.htmlLink, navItem.name, navItem.name)}
+          </div>
+        `
+      : components.text(navItem.name)
+    }
+      ${navItem.children.filter(isntIndexFile).map(renderNavItem).join('')}
+    </div>
+  `
+}
+
+function isntIndexFile(navItem: SiteTree): boolean {
+  return navItem.type === 'directory' || navItem.name !== 'Index'
 }
 
 const theme: Theme = {
@@ -34,28 +45,61 @@ const theme: Theme = {
           font-family: "${options.bodyFont}", sans-serif;
           background-color: white;
           color: rgb(20, 20, 20);
-          display: flex;
-          align-items: center;
           min-height: 100%;
+          height: 100%;
         }
+        * { box-sizing: border-box; } 
         .mono { font-family: "${options.monospaceFont}", monospace; }
-        main { padding: 2rem 10vw; }
+        .ph10vw { padding-left: 10vw; padding-right: 10vw; }
         h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
         ul, li { list-style-type: none; }
         h1 a, h2 a, h3 a, h4 a { text-decoration: none; border-bottom: none; }
         .df { display: flex; }
+        .flex-0 { flex: 0; }
         .flex-1 { flex: 1; }
         .material-icons { font-size: inherit; line-height: inherit; }
         a {
           color: #0086b3;
+          text-decoration: none;
         }
+        a:hover, a:focus {
+          text-decoration: underline;
+        }
+        nav a {
+          color: inherit;
+        }
+        .transition {
+          transition: all 0.3s ease-in-out;
+        }
+        .w-0 { width: 0px; }
+
+        nav { transform: translateX(0%); }
+        main { opacity: 1; }
+        .fade-out { opacity: 0.3; }
+        .slide-out { transform: translateX(-100%); }
+        
         @media screen and (min-width: 50em) {
           html, body { font-size: 24px; }
+          main { opacity: 1 !important; }
+          nav { transform: translateX(0%) !important; }
+          #nav-toggle { display: none; }
         }
+        @media screen and (max-width: 50em) {
+          nav {
+            position: fixed;
+            display: block;
+            left: 0px;
+            top: 0px;
+            height: 100%;
+            z-index: 10;
+          }
+        }
+        
       `
     }
   },
   run({ pageTitle, content, tree, options }) {
+    const components = theme.renderer()
     return `
       <html>
         <head>
@@ -66,16 +110,71 @@ const theme: Theme = {
           <link href="https://fonts.googleapis.com/css?family=${gf(options.bodyFont)}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/css?family=${gf(options.monospaceFont)}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+          <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
+          <link rel="stylesheet" href="/style.css" />
           <!--[if lt IE 9]>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
           <![endif]-->
           <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.1.1/turbolinks.js"></script>
-          <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
-          <link rel="stylesheet" href="/style.css" />
+          <script>
+            function openNav() {
+              var nav = document.querySelector('nav')
+              var main = document.querySelector('main')
+              if (nav && main) {
+                nav.classList.remove('slide-out')
+                main.classList.add('fade-out')
+              }
+            }
+
+            function closeNav() {
+              var nav = document.querySelector('nav')
+              var main = document.querySelector('main')
+              if (nav && main) {
+                nav.classList.add('slide-out')
+                main.classList.remove('fade-out')
+              }
+            }
+
+            function closeNavIfClickOutside(e) {
+              var nav = document.querySelector('nav')
+              var navOpenElm = document.getElementById('nav-toggle')
+              if (nav && navOpenElm && !nav.contains(e.target) && !navOpenElm.contains(e.target)) {
+                closeNav()
+              }
+            }
+
+            function bindEventListeners() {
+              var navOpenElm = document.getElementById('nav-toggle')
+              var main = document.querySelector('main')
+              var nav = document.querySelector('nav')
+              if (navOpenElm) {
+                navOpenElm.addEventListener('click', openNav)
+              }
+              if (nav && main) {
+                document.body.addEventListener('click', closeNavIfClickOutside)
+              }
+            }
+
+            document.addEventListener("turbolinks:load", bindEventListeners);
+          </script>
         </head>
-        <body>
-          <main>
-            ${content}
+        <body class="df">
+          <nav class="bg-near-white pv4 overflow-auto lh-copy transition slide-out">
+            <div class="pv3 pl3 pr4 w-100">
+              <div class="mb2 ml3">
+                ${components.link('/', 'Home', 'Home')}
+              </div>
+              ${tree.filter(isntIndexFile).map(renderNavItem).join('')}
+            </div>
+          </nav>
+          <main class="flex-1 h-100 overflow-auto transition">
+            <div class="ph10vw pv4">
+              <div class="df pointer mv3" id="nav-toggle">
+                <i class="material-icons mr1 light-silver">menu</i>
+                <span class="grey">Menu</span>
+              </div>
+              ${content}
+            </div>
           </main>
         </body>
       </html>

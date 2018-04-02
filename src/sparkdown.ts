@@ -5,31 +5,47 @@ import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
 import parser from './parser'
 import theme, { defaultTheme } from './theme'
-import { Options, DirToJson, Css, Tree } from './types';
-import { directoryNameToTitle, transformHref, dashifyString } from './utils';
+import { Options, DirToJson, Css, SiteTree } from './types';
+import { directoryNameToTitle, dashifyString } from './utils';
 
-function mapTree(options: Options, source: DirToJson): Tree {
+function linkToFirstPageInDirectory(source: DirToJson): string | null {
+  if (source.children) {
+    const child = source.children.find(dir => dir.name.includes('index')) || source.children.find(dir => dir.type === 'file')
+    return child
+      ? `/${makeHtmlLink(child)}`
+      : null
+  } else {
+    return null
+  }
+}
+
+function makeHtmlLink(source: DirToJson): string {
+  return `${dashifyString(source.path.split('.md')[0])}.html`
+}
+
+function mapTree(options: Options, source: DirToJson): SiteTree {
   const outputBaseDir = path.resolve(process.cwd(), options.output)
   const isDirectory = source.type === 'directory' && source.children && source.children.length
+  const htmlLinkPath = makeHtmlLink(source)
   return {
     type: isDirectory ? 'directory' : 'page',
     name: directoryNameToTitle(source.name),
     inputFilePath: path.resolve(process.cwd(), options.source, source.path),
-    outputFilePath: path.resolve(outputBaseDir, `${dashifyString(source.path.split('.')[0])}.html`),
-    htmlLink: isDirectory ? null : transformHref('/' + source.parent, source.path.split('.md')[0]),
+    outputFilePath: path.resolve(outputBaseDir, htmlLinkPath),
+    htmlLink: isDirectory ? linkToFirstPageInDirectory(source) : `/${htmlLinkPath}`,
     children: isDirectory ? source.children.map(d => mapTree(options, d)) : [],
     parent: source.parent,
   }
 }
 
-function makeTree(options: Options, source: DirToJson): Tree[] {
+function makeTree(options: Options, source: DirToJson): SiteTree[] {
   return source.children
     ? source.children.map(dir => mapTree(options, dir))
     : [source].map(dir => mapTree(options, dir))
 }
 
-function processMarkdown(options: Options, tree: Tree[]) {
-  function processTree(currentTree: Tree) {
+function processMarkdown(options: Options, tree: SiteTree[]) {
+  function processTree(currentTree: SiteTree) {
     if (currentTree.type === 'directory') {
       currentTree.children.map(processTree)
     } else {
