@@ -1,35 +1,8 @@
-import * as marked from 'marked'
+import { ThemeOptions, Theme, Nav } from './types';
 
 function gf(f: string): string {
   return f.split(' ').join('+')
 }
-
-export interface LayoutOptions {
-  pageTitle: string | null
-  content: string
-  options: ThemeOptions
-}
-
-export interface Theme {
-  css?: Css
-  layout: (options: LayoutOptions) => string
-  renderer: () => marked.Renderer
-}
-
-export interface ThemeOptions {
-  bodyFont?: string
-  monospaceFont?: string
-  author?: string
-  description?: string
-  title?: string
-}
-
-export interface WriteCss {
-  filename: string
-  content: string
-}
-
-export type Css = (options: ThemeOptions) => WriteCss
 
 export const defaultTheme: ThemeOptions = {
   bodyFont: 'EB Garamond',
@@ -37,6 +10,16 @@ export const defaultTheme: ThemeOptions = {
   author: '',
   description: '',
   title: 'My Site',
+}
+
+function renderNavItem(navItem: Nav): string {
+  if (navItem.type === 'page') {
+    return `<div class="ml2 mv1">${theme.renderer().link(navItem.htmlLink, navItem.name, navItem.name)}</div>`
+  } else {
+    return `
+      <div class="ml2 mv3">${theme.renderer().strong(navItem.name)} <br /> ${navItem.children.map(renderNavItem).join('')}</div>
+    `
+  }
 }
 
 const theme: Theme = {
@@ -72,7 +55,7 @@ const theme: Theme = {
       `
     }
   },
-  layout({ pageTitle, content, options }) {
+  run({ pageTitle, content, tree, options }) {
     return `
       <html>
         <head>
@@ -91,6 +74,9 @@ const theme: Theme = {
           <link rel="stylesheet" href="/style.css" />
         </head>
         <body>
+          <nav>
+            ${tree.map(renderNavItem).join('')}
+          </nav>
           <main>
             ${content}
           </main>
