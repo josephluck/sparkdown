@@ -1,6 +1,8 @@
 # :zap:Sparkdown:point_down:
 
-Yet another static site generator based on markdown files
+Yet another static site generator based on markdown files.
+
+Here's a [live example](http://josephluck.co.uk) of a site made using Sparkdown.
 
 ## What do you mean?
 
