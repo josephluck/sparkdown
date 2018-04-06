@@ -1,12 +1,18 @@
 # :zap:Sparkdown:point_down:
 
-Yet another static site generator based on markdown files.
+Yet another opinionated static site generator based on markdown files.
 
 Here's a [live example](http://josephluck.co.uk) of a site made using Sparkdown.
 
 ## What do you mean?
 
 Takes a source directory of markdown files and spits out a website.
+
+## What's it good for?
+
+Sparkdown will work for sites that are content-heavy. For example, portfolio websites, blogs and documentation websites. It's fairly easy to get a continuous-delivery pipeline set up using git-hooks or otherwise, making it a good solution for open-source project documentation.
+
+Sparkdown is opinionated, and you don't get much control over how the generated site looks. If you want more control, use something like Jekyll or Hugo.
 
 # Setup
 
@@ -32,13 +38,13 @@ npm install -g sparkdown
 
 ### Configuration (optional)
 
-To control the look and feel of the website, make a configuration file:
+Make a configuration file:
 
 ```bash
 touch sparkdown.json
 ```
 
-Write these options to your `sparkdown.json` file. Sparkdown comes with some sensible defaults, but here's an example:
+Write to your `sparkdown.json` file. Sparkdown comes with some sensible defaults, but here's an example:
 
 ```json
 {
@@ -56,8 +62,11 @@ Write these options to your `sparkdown.json` file. Sparkdown comes with some sen
 - `output`: Directory where sparkdown will generate HTML files
 - `bodyFont`: Any valid google webfont
 - `monospaceFont`: Any valid google webfont (used when rendering `code` snippets)
+- `author`: Populates the author meta tag
+- `description`: Populates the description meta tag
+- `title` - The base title for the site. Note this gets updated per-page automatically
 
-You can also add a `sparkdown` key to your `package.json` file and sparkdown will read from it instead of the config file:
+Alternatively, you can add a `sparkdown` key to your `package.json` file and sparkdown will read from it instead of the config file:
 
 ```json
 {
@@ -83,7 +92,7 @@ You can also add a `sparkdown` key to your `package.json` file and sparkdown wil
 
 # Write
 
-Create markdown files in your `src` directory.
+Create markdown files in the directory you specified in the `source` key in your config. The following examples use `src`.
 
 ### Page titles
 
@@ -101,9 +110,9 @@ Sparkdown - My First Post
 
 ### Directories & Menu
 
-Sparkdown will create a sitemap / menu for you. It's always visible on desktop screens, and tucks away behind a button on mobile.
+Sparkdown will create a menu for you. It's always visible on desktop screens, and tucks away behind a button on mobile.
 
-Directories can be used as a makeshift category system. Markdown files that are placed inside a directory will be placed inside a menu item with the same name as the directory itself. For example, consider the following directory structure:
+Directories can be used as a makeshift category system to nest pages. Markdown files that are placed inside a directory will be placed inside a menu item who's title is the name of the directory. For example, consider the following directory structure:
 
 ```bash
 src/index.md

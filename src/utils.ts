@@ -37,7 +37,8 @@ export function transformHref(root: string, href: string): string {
 export function directoryNameToTitle(dirName: string): string | null {
   const fileName = dirName.split('.')[0]
   const withoutAlphanumeric = spacifyString(fileName).split(' ')
-  return withoutAlphanumeric.length
+  const name = withoutAlphanumeric.length
     ? withoutAlphanumeric.map(capitalizeString).join(' ')
     : capitalizeString(fileName[0])
+  return name === 'Index' ? 'Home' : name
 }
