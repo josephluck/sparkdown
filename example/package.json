@@ -1,6 +1,7 @@
 {
   "name": "sparkdown-example",
   "version": "0.0.0",
+  "homepage": "sparkdown-example.surge.sh",
   "sparkdown": {
     "source": "./src",
     "output": "./dist",
@@ -9,5 +10,12 @@
     "title": "Christopher Cross",
     "author": "Christopher Cross",
     "description": "I'm a chief widget maker"
+  },
+  "scripts": {
+    "build": "sparkdown",
+    "deploy": "sparkdown && surge ./dist"
+  },
+  "dependencies": {
+    "sparkdown": "*"
   }
 }
