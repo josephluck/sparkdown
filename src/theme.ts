@@ -200,7 +200,7 @@ const theme: Theme = {
       },
       code(text, lang) {
         const validLang = !!(lang && hljs.getLanguage(lang))
-        return `<pre class="mono bg-near-white br2 pv1 ph2 lh-copy mv3" data-type="code" data-lang="${lang}">${validLang ? hljs.highlight(lang, text).value : text}</pre>`
+        return `<pre class="mono bg-near-white br2 pv1 ph2 lh-copy mv3" data-type="code" data-lang="${lang}">${validLang ? hljs.highlight(lang, text).value : hljs.highlightAuto(text).value}</pre>`
       },
       codespan(text) {
         return `<code class="mono bg-near-white dib br2 ph1" data-type="codespan">${text}</code>`
