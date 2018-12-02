@@ -1,4 +1,5 @@
-import { ThemeOptions, Theme, SiteTree } from './types';
+import { ThemeOptions, Theme, SiteTree } from './types'
+import * as hljs from 'highlight.js'
 
 function gf(f: string): string {
   return f.split(' ').join('+')
@@ -16,15 +17,19 @@ function renderNavItem(navItem: SiteTree): string {
   const components = theme.renderer()
   return `
     <div class="mb1 ml3">
-      ${navItem.htmlLink
-      ? `
+      ${
+        navItem.htmlLink
+          ? `
           <div class="mb1 truncate">
             ${components.link(navItem.htmlLink, navItem.name, navItem.name)}
           </div>
         `
-      : components.text(navItem.name)
-    }
-      ${navItem.children.filter(isntIndexFile).map(renderNavItem).join('')}
+          : components.text(navItem.name)
+      }
+      ${navItem.children
+        .filter(isntIndexFile)
+        .map(renderNavItem)
+        .join('')}
     </div>
   `
 }
@@ -96,7 +101,7 @@ const theme: Theme = {
           }
         }
         
-      `
+      `,
     }
   },
   run({ pageTitle, content, tree, options }) {
@@ -110,6 +115,7 @@ const theme: Theme = {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <link href="https://fonts.googleapis.com/css?family=${gf(options.bodyFont)}" rel="stylesheet">
           <link href="https://fonts.googleapis.com/css?family=${gf(options.monospaceFont)}" rel="stylesheet">
+          <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
           <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
           <link rel="stylesheet" href="/style.css" />
@@ -165,7 +171,10 @@ const theme: Theme = {
               <div class="mb1 ml3 overflow-hidden truncate">
                 ${components.link('/', 'Home', 'Home')}
               </div>
-              ${tree.filter(isntIndexFile).map(renderNavItem).join('')}
+              ${tree
+                .filter(isntIndexFile)
+                .map(renderNavItem)
+                .join('')}
             </div>
           </nav>
           <main class="flex-1 h-100 overflow-auto transition">
@@ -184,73 +193,74 @@ const theme: Theme = {
   renderer() {
     return {
       blockquote(text) {
-        return `<div class="bl bw2 b--light-gray pl2 lh-copy gray i">${text}</div>`
+        return `<div class="bl bw2 b--light-gray pl2 lh-copy gray i" data-type="blockquote">${text}</div>`
       },
       br() {
-        return `<div class="mv3"></div>`
+        return `<div class="mv3" data-type="br"></div>`
       },
       code(text, lang) {
-        return `<p class="mono bg-near-white br2 pv1 ph2 lh-copy mv3">${text}</p>`
+        const validLang = !!(lang && hljs.getLanguage(lang))
+        return `<pre class="mono bg-near-white br2 pv1 ph2 lh-copy mv3" data-type="code" data-lang="${lang}">${validLang ? hljs.highlight(lang, text).value : text}</pre>`
       },
       codespan(text) {
-        return `<span class="mono bg-near-white dib br2 ph1">${text}</span>`
+        return `<code class="mono bg-near-white dib br2 ph1" data-type="codespan">${text}</code>`
       },
       del(text) {
-        return `<del>${text}</del>`
+        return `<del data-type="del">${text}</del>`
       },
       em(text) {
-        return `<span class="i">${text}</span>`
+        return `<span class="i" data-type="em">${text}</span>`
       },
       heading(text, level) {
         if (level === 1) {
-          return `<h1 class="f1 lh-solid mv3">${text}</h1>`
+          return `<h1 class="f1 lh-solid mv3" data-type="heading-1">${text}</h1>`
         } else if (level === 2) {
-          return `<h2 class="normal f3 lh-copy mv3">${text}</h2>`
+          return `<h2 class="normal f3 lh-copy mv3" data-type="heading-2">${text}</h2>`
         } else if (level === 3) {
-          return `<h3 class="normal f4 lh-copy mv2 gray">${text}</h3>`
+          return `<h3 class="normal f4 lh-copy mv2 gray" data-type="heading-3">${text}</h3>`
         } else if (level === 4) {
-          return `<h4 class="normal f5 lh-copy mv1 gray">${text}</h5>`
+          return `<h4 class="normal f5 lh-copy mv1 gray" data-type="heading-4">${text}</h5>`
         } else {
-          return `<h5 class="normal f6 lh-copy gray">${text}</h5>`
+          return `<h5 class="normal f6 lh-copy gray" data-type="heading-5">${text}</h5>`
         }
       },
       hr() {
-        return `<div class="mv4 bb b--black-10"></div>`
+        return `<div class="mv4 bb b--black-10" data-type="hr"></div>`
       },
-      html(text: string) { return text },
+      html(text: string) {
+        return text
+      },
       image(href, title, text) {
-        return `<img src="${href}" title="${title || text}" />`
+        return `<img src="${href}" title="${title || text}" data-type="img" />`
       },
       link(href, title, text) {
-        return `<a href="${href}" title="${title || text}">${text}</a>`
+        return `<a href="${href}" title="${title || text}" data-type="link">${text}</a>`
       },
       list(body) {
-        return `<div class="mv3">${body}</div>`
+        return `<div class="mv3" data-type="list">${body}</div>`
       },
       listitem(text) {
-        return `<div class="lh-copy mv1 df"><i class="material-icons light-silver mr1">radio_button_unchecked</i><span class="flex-1">${text}</span></div>`
+        return `<div class="lh-copy mv1 df" data-type="list-item"><i class="material-icons light-silver mr1">radio_button_unchecked</i><span class="flex-1">${text}</span></div>`
       },
       paragraph(text) {
-        return `<p class="lh-copy mv3">${text}</p>`
+        return `<p class="lh-copy mv3" data-type="paragraph">${text}</p>`
       },
       strong(text) {
-        return `<span class="b">${text}</span>`
+        return `<span class="b" data-type="strong">${text}</span>`
       },
       table(header, body) {
-        return `<div class="mv3">${header} ${body}</div>`
+        return `<div class="mv3" data-type="table">${header} ${body}</div>`
       },
       tablecell(content, { header, align }) {
-        return `
-          <div class="
-            flex-1 lh-copy
-            ${align === 'center' ? 'tc' : align === 'right' ? 'tr' : ''}
-            ${header ? 'b' : 'normal'}
-          ">${content}</div>`
+        const className = `flex-1 lh-copy${align === 'center' ? 'tc' : align === 'right' ? 'tr' : ''}${header ? 'b' : 'normal'}`
+        return `<div class="${className}" data-type="tablecell">${content}</div>`
       },
       tablerow(content) {
-        return `<div class="df">${content}</div>`
+        return `<div class="df" data-type="tablerow">${content}</div>`
       },
-      text(text: string) { return text },
+      text(text: string) {
+        return text
+      },
     }
   },
 }

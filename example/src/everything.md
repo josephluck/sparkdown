@@ -47,6 +47,8 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 - Or minuses
 + Or pluses
 
+[I'm a hash link](#foo-bar)
+
 [I'm an inline-style link](https://www.google.com)
 
 [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
@@ -85,6 +87,57 @@ Inline `code` has `back-ticks around` it.
 var s = "JavaScript syntax highlighting";
 alert(s);
 ```
+
+foobar
+
+```javascript
+// slider.tsx
+import React from 'react'
+
+interface Props {
+  slides: any[]
+  renderSlide: (slide: any): React.ReactNode
+}
+
+export function Slider(props: Props) {
+  return (
+    <SliderContainer>
+      <LeftArrow />
+      {props.slides.map((slide, i) => (
+        <SlideContainer key={i}>
+          {props.renderSlide(slide)}
+        </SlideContainer>
+      ))}
+      <RightArrow />
+    </SliderContainer>
+  )
+}
+
+// app.tsx
+interface Cat {
+  name: string,
+  image: string
+}
+
+const cats: Cat[] = [
+  { name: 'Cute cat', image: 'cure-cat.png' },
+  { name: 'Evil cat', image: 'evil-cat.png }
+]
+
+export default () {
+  return (
+    <Slider
+      slides={cats}
+      renderSlide={cat => (
+        <div>
+          <img src={cat.image} />
+          <h2>{cat.name}</h2>
+        </div>
+      )}
+    />
+  )
+}
+```
  
 ```python
 s = "Python syntax highlighting"
@@ -107,6 +160,8 @@ Colons can be used to align columns.
 There must be at least 3 dashes separating each header cell.
 The outer pipes (|) are optional, and you don't need to make the 
 raw Markdown line up prettily. You can also use inline Markdown.
+
+# Foo bar
 
 Markdown | Less | Pretty
 --- | --- | ---
