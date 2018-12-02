@@ -55,8 +55,7 @@ const theme: Theme = {
         }
         * { box-sizing: border-box; } 
         .mono { font-family: "${options.monospaceFont}", monospace; }
-        .ph10vw { padding-left: 10vw; padding-right: 10vw; }
-        .mhn10vw { margin-left: -10vw; margin-right: -10vw; }
+        .ph5vw { padding-left: 5vw; padding-right: 5vw; }
         h1, h2, h3, h4, h5, h6, p, ul { margin: 0rem; }
         ul, li { list-style-type: none; }
         h1 a, h2 a, h3 a, h4 a { text-decoration: none; border-bottom: none; }
@@ -89,7 +88,7 @@ const theme: Theme = {
           main { opacity: 1 !important; }
           nav { transform: translateX(0%) !important; }
           #nav-toggle { display: none; }
-          .m0-ns { margin-left: 0; margin-right: 0; }
+          .ph10vw-ns { padding-left: 10vw; padding-right: 10vw; }
         }
 
         @media screen and (max-width: 50em) {
@@ -181,7 +180,7 @@ const theme: Theme = {
             </div>
           </nav>
           <main class="flex-1 h-100 overflow-auto transition">
-            <div class="ph10vw pv4">
+            <div class="ph5vw ph10vw-ns pv4">
               <div class="df pointer mv3" id="nav-toggle">
                 <i class="material-icons mr1 gray">menu</i>
                 <span class="gray b">Menu</span>
@@ -203,7 +202,7 @@ const theme: Theme = {
       },
       code(text, lang) {
         const validLang = !!(lang && hljs.getLanguage(lang))
-        return `<pre class="mono bg-near-white br2-ns pv1 ph10vw ph2-ns lh-copy mv3 mhn10vw mh0-ns f7 overflow-auto" data-type="code" data-lang="${lang}">${validLang ? hljs.highlight(lang, text).value : hljs.highlightAuto(text).value}</pre>`
+        return `<pre class="mono bg-near-white br2 pv1 ph2 lh-copy mv3 f7 overflow-auto" data-type="code" data-lang="${lang}">${validLang ? hljs.highlight(lang, text).value : hljs.highlightAuto(text).value}</pre>`
       },
       codespan(text) {
         return `<code class="mono bg-near-white dib br2 ph1 f7" data-type="codespan">${text}</code>`
