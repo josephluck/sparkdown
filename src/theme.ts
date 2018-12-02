@@ -35,7 +35,7 @@ function renderNavItem(navItem: SiteTree): string {
 }
 
 function isntIndexFile(navItem: SiteTree): boolean {
-  return navItem.type === 'directory' || navItem.name !== 'Index'
+  return navItem.type === 'directory' || navItem.name.toLowerCase() !== 'home'
 }
 
 const theme: Theme = {
