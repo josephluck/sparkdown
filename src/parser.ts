@@ -4,7 +4,6 @@ import * as hljs from 'highlight.js'
 
 export default function parser(input: string, theme: () => marked.Renderer, currentDir: string, currentHtmlLink: string) {
   const thm = theme()
-  console.log({ currentDir, currentHtmlLink })
   const renderer: marked.Renderer = {
     ...thm,
     link: (originalHref, title, text) => {
