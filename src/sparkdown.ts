@@ -5,8 +5,8 @@ import * as path from 'path'
 import * as dirToJson from 'dir-to-json'
 import parser from './parser'
 import theme, { defaultTheme } from './theme'
-import { Options, DirToJson, Css, SiteTree } from './types';
-import { directoryNameToTitle, dashifyString } from './utils';
+import { Options, DirToJson, Css, SiteTree } from './types'
+import { directoryNameToTitle, dashifyString } from './utils'
 
 function mapTree(options: Options) {
   const outputBaseDir = path.resolve(process.cwd(), options.output)
@@ -26,9 +26,7 @@ function mapTree(options: Options) {
 }
 
 function makeTree(options: Options, source: DirToJson): SiteTree[] {
-  return source.children
-    ? source.children.map(mapTree(options))
-    : [source].map(mapTree(options))
+  return source.children ? source.children.map(mapTree(options)) : [source].map(mapTree(options))
 }
 
 function processMarkdown(options: Options, tree: SiteTree[]) {
@@ -37,11 +35,7 @@ function processMarkdown(options: Options, tree: SiteTree[]) {
       currentTree.children.map(processTree)
     } else {
       const sourceMarkdownFile = fs.readFileSync(currentTree.inputFilePath).toString()
-      const htmlContent = parser(
-        sourceMarkdownFile,
-        theme.renderer,
-        '/' + currentTree.parent,
-      )
+      const htmlContent = parser(sourceMarkdownFile, theme.renderer, '/' + currentTree.parent)
       const html = theme.run({ pageTitle: currentTree.name, content: htmlContent, options, tree })
       fs.outputFileSync(currentTree.outputFilePath, html)
       console.log(`Written HTML to ${currentTree.outputFilePath}`)
@@ -73,9 +67,7 @@ function getConfig(): Options {
 function linkToFirstPageInDirectory(source: DirToJson): string | null {
   if (source.children) {
     const child = source.children.find(dir => dir.name.includes('index')) || source.children.find(dir => dir.type === 'file')
-    return child
-      ? `/${makeHtmlLink(child)}`
-      : null
+    return child ? `/${makeHtmlLink(child)}` : null
   } else {
     return null
   }
@@ -92,12 +84,20 @@ function writeCss(css: Css, options: Options) {
   console.log(`Written CSS to ${outputFilePath}`)
 }
 
+function writeJs(options: Options) {
+  const result = fs.readFileSync(path.resolve(__dirname, './runtime.js')).toString()
+  const outputFilePath = path.resolve(process.cwd(), options.output, './runtime.js')
+  fs.outputFileSync(outputFilePath, result)
+  console.log(`Written JS to ${outputFilePath}`)
+}
+
 async function run() {
   const options = getConfig()
   const source: DirToJson = await dirToJson(path.resolve(process.cwd(), options.source))
   if (theme.css) {
     writeCss(theme.css, options)
   }
+  writeJs(options)
   const tree = makeTree(options, source)
   return processMarkdown(options, tree)
 }
