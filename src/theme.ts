@@ -1,5 +1,6 @@
 import { ThemeOptions, Theme, SiteTree } from './types'
 import * as hljs from 'highlight.js'
+import { hashLinkString } from './utils'
 
 function gf(f: string): string {
   return f.split(' ').join('+')
@@ -173,19 +174,21 @@ const theme: Theme = {
       em(text) {
         return `<span class="i" data-type="em">${text}</span>`
       },
-      heading(text, level) {
+      heading: ((text: string, level: number, _raw: string, currentUrl: string) => {
+        const id = hashLinkString(text)
+        const inner = `<a style="color: inherit" href="${currentUrl}#${id}">${text}</a>`
         if (level === 1) {
-          return `<h1 class="f1 lh-solid mv3" data-type="heading-1">${text}</h1>`
+          return `<h1 id=${id} class="f1 lh-solid mv3" data-type="heading-1">${inner}</h1>`
         } else if (level === 2) {
-          return `<h2 class="normal f3 lh-copy mv3" data-type="heading-2">${text}</h2>`
+          return `<h2 id=${id} class="normal f3 lh-copy mv3" data-type="heading-2">${inner}</h2>`
         } else if (level === 3) {
-          return `<h3 class="normal f4 lh-copy mv2 gray" data-type="heading-3">${text}</h3>`
+          return `<h3 id=${id} class="normal f4 lh-copy mv2 gray" data-type="heading-3">${inner}</h3>`
         } else if (level === 4) {
-          return `<h4 class="normal f5 lh-copy mv1 gray" data-type="heading-4">${text}</h5>`
+          return `<h4 id=${id} class="normal f5 lh-copy mv1 gray" data-type="heading-4">${inner}</h5>`
         } else {
-          return `<h5 class="normal f6 lh-copy gray" data-type="heading-5">${text}</h5>`
+          return `<h5 id=${id} class="normal f6 lh-copy gray" data-type="heading-5">${inner}</h5>`
         }
-      },
+      }) as any,
       hr() {
         return `<div class="mv4 bb b--black-10" data-type="hr"></div>`
       },
@@ -195,9 +198,9 @@ const theme: Theme = {
       image(href, title, text) {
         return `<img src="${href}" title="${title || text}" data-type="img" />`
       },
-      link(href, title, text) {
-        return `<a href="${href}" title="${title || text}" data-type="link">${text}</a>`
-      },
+      link: ((href: string, title: string, text: string, isExternal: boolean) => {
+        return `<a href="${href}" title="${title || text}" target="${isExternal ? '_blank' : '_self'}" data-type="link">${text}</a>`
+      }) as any,
       list(body) {
         return `<div class="mv3" data-type="list">${body}</div>`
       },

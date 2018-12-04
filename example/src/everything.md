@@ -47,7 +47,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 - Or minuses
 + Or pluses
 
-[I'm a hash link](#foo-bar)
+[I'm a hash link](#fOo-bAr)
 
 [I'm an inline-style link](https://www.google.com)
 
@@ -88,7 +88,7 @@ var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-foobar
+# Foo bar
 
 ```javascript
 // slider.tsx

@@ -35,7 +35,8 @@ function processMarkdown(options: Options, tree: SiteTree[]) {
       currentTree.children.map(processTree)
     } else {
       const sourceMarkdownFile = fs.readFileSync(currentTree.inputFilePath).toString()
-      const htmlContent = parser(sourceMarkdownFile, theme.renderer, '/' + currentTree.parent)
+      const currentDir = `/${dashifyString(currentTree.parent)}`
+      const htmlContent = parser(sourceMarkdownFile, theme.renderer, currentDir, currentTree.htmlLink)
       const html = theme.run({ pageTitle: currentTree.name, content: htmlContent, options, tree })
       fs.outputFileSync(currentTree.outputFilePath, html)
       console.log(`Written HTML to ${currentTree.outputFilePath}`)

@@ -2,11 +2,18 @@ import * as marked from 'marked'
 import { transformHref } from './utils'
 import * as hljs from 'highlight.js'
 
-export default function parser(input: string, theme: () => marked.Renderer, root: string) {
+export default function parser(input: string, theme: () => marked.Renderer, currentDir: string, currentHtmlLink: string) {
   const thm = theme()
+  console.log({ currentDir, currentHtmlLink })
   const renderer: marked.Renderer = {
     ...thm,
-    link: (href, title, text) => thm.link(transformHref(root, href), title, text),
+    link: (originalHref, title, text) => {
+      const { href, isExternal } = transformHref(currentDir, originalHref)
+      return (thm.link as any)(href, title, text, isExternal)
+    },
+    heading: (text, level, raw) => {
+      return (thm.heading as any)(text, level, raw, currentHtmlLink)
+    },
   } as marked.Renderer
 
   marked.setOptions({
